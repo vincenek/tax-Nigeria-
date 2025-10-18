@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lex - Professional Productivity Suite</title>
+    <title>Nigerian Tax Intelligence | Professional Tax Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #7209b7;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --warning: #ffd166;
-            --gray: #adb5bd;
-            --premium: #ffd700;
-            --surface: #ffffff;
-            --surface-alt: #f8f9fa;
-            --shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --radius: 10px;
+            --primary: #006400;
+            --primary-dark: #004d00;
+            --primary-light: #4caf50;
+            --secondary: #1a237e;
+            --accent: #ff9800;
+            --accent-dark: #e68900;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #f8f9fa;
+            --white: #ffffff;
+            --gray-light: #e9ecef;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 8px;
             --transition: all 0.3s ease;
         }
 
@@ -34,38 +31,65 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f2 100%);
-            min-height: 100vh;
-            padding: 0;
-            color: var(--dark);
+            background-color: var(--background);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            transition: transform 0.3s ease;
+        /* Naira Animation Styles */
+        .naira-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        /* Header & Navigation */
+        .naira-note {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(0, 100, 0, 0.2);
+            animation: float 15s linear infinite;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header Styles */
         header {
-            background: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 1.5rem 2rem;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 100;
-            padding: 0 20px;
+            z-index: 1000;
         }
 
         .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 0;
         }
 
         .logo {
@@ -75,471 +99,641 @@
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo h1 {
             font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            line-height: 1.2;
         }
 
-        .nav-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.9;
         }
 
-        .premium-badge {
-            background: linear-gradient(45deg, #ffd700, #ff9800);
-            color: #000;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-weight: 600;
+        nav ul {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: var(--shadow);
-            cursor: pointer;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
             transition: var(--transition);
-            font-size: 0.95rem;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
         }
 
-        .premium-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .premium-badge.locked {
-            background: linear-gradient(45deg, #6c757d, #495057);
-            color: white;
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
+            color: var(--white);
             font-size: 1.5rem;
-            color: var(--dark);
             cursor: pointer;
-            z-index: 101;
         }
 
-        /* Dashboard Layout */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-
-        @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Tab Navigation */
-        .tabs {
-            display: flex;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            margin: 0 0 30px 0;
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 80, 0, 0.85), rgba(0, 80, 0, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23004d00"/><path d="M0 0L100 100M100 0L0 100" stroke="%23006d00" stroke-width="1"/></svg>');
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
             overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
             flex-wrap: wrap;
         }
 
-        .tab {
-            flex: 1;
-            min-width: 120px;
-            text-align: center;
-            padding: 16px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            font-size: 1rem;
+        .trust-badge {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            position: relative;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
         }
 
-        .tab:hover {
-            background: #f0f2f5;
-        }
-
-        .tab.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--warning);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Card Styling */
-        .card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 25px;
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
         }
 
-        .card-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+        .cta-button:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
         }
 
-        .card-title h2 {
-            font-size: 1.4rem;
+        .cta-button:hover:after {
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
             color: var(--primary);
-            font-weight: 700;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Calculator Section */
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .calculator-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            height: fit-content;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .calculator-card h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .card-title i {
-            font-size: 1.3rem;
-            color: var(--primary);
-        }
-
-        /* Form Elements */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
         }
 
-        input, textarea, select {
+        .form-control {
             width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray-light);
             border-radius: var(--radius);
             font-size: 1rem;
             transition: var(--transition);
-            background: var(--surface-alt);
         }
 
-        input:focus, textarea:focus, select:focus {
+        .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 100, 0, 0.1);
         }
 
         .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            background-color: var(--primary);
-            color: white;
+            background: var(--primary);
+            color: var(--white);
             border: none;
+            padding: 0.8rem 1.5rem;
             border-radius: var(--radius);
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn:hover {
-            background-color: var(--primary-dark);
+            background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-            box-shadow: none;
         }
 
         .btn-block {
             display: block;
             width: 100%;
+            text-align: center;
         }
 
-        .btn-premium {
-            background: linear-gradient(45deg, var(--premium), #ff9800);
-            color: #000;
+        .btn-accent {
+            background: var(--accent);
         }
 
-        .btn-premium:hover {
-            background: linear-gradient(45deg, #ffcc00, #ff8c00);
-            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.25);
+        .btn-accent:hover {
+            background: var(--accent-dark);
         }
 
-        /* Task List */
-        .task-list {
-            list-style: none;
-            max-height: 400px;
-            overflow-y: auto;
-            margin: 20px 0;
-            padding-right: 5px;
+        .result-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease;
+            border-left: 5px solid var(--primary);
         }
 
-        .task-list::-webkit-scrollbar {
-            width: 8px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .task-list::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        .tax-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+            text-align: center;
         }
 
-        .task-list::-webkit-scrollbar-thumb {
-            background: #c5c5c5;
-            border-radius: 10px;
+        .tax-breakdown {
+            margin: 1.5rem 0;
         }
 
-        .task-list::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-light);
         }
 
-        .task-item {
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .tax-tip {
+            background: #e8f5e9;
+            border-left: 4px solid var(--primary-light);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-top: 1.5rem;
+        }
+
+        .tax-tip h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            padding: 14px;
-            background: var(--surface-alt);
-            border-radius: var(--radius);
-            margin-bottom: 10px;
-            transition: var(--transition);
-            animation: fadeIn 0.3s ease;
-            border-left: 4px solid var(--primary);
-        }
-
-        .task-item:hover {
-            background: #eef2ff;
-            transform: translateX(5px);
-        }
-
-        .task-item.completed {
-            background: #edf7ff;
-            border-left-color: var(--success);
-        }
-
-        .task-item.completed .task-text {
-            text-decoration: line-through;
-            color: var(--gray);
-        }
-
-        .task-check {
-            margin-right: 15px;
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-            accent-color: var(--success);
-        }
-
-        .task-text {
-            flex: 1;
-            font-size: 1.05rem;
-            font-weight: 500;
-        }
-
-        .task-actions {
-            display: flex;
             gap: 8px;
         }
 
-        .task-actions button {
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            font-size: 1.1rem;
+        /* Resources Section */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .resource-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
             transition: var(--transition);
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            text-align: center;
+            border-top: 4px solid var(--primary);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .resource-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .resource-card p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        /* Tax Payment Section */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .payment-method {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .payment-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .payment-method p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        /* Sector Insights */
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .sector-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .sector-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .sector-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .sector-body {
+            padding: 1.5rem;
+        }
+
+        .sector-body ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .sector-body li {
+            padding: 0.5rem 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
+            gap: 10px;
         }
 
-        .task-actions button:hover {
-            background: rgba(247, 37, 133, 0.1);
-            color: var(--danger);
+        .sector-body li:before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
         }
 
-        /* Premium Features */
-        .premium-feature {
-            position: relative;
-        }
-
-        .premium-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(8px);
+        /* Tax Payment Guide */
+        .payment-steps {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            text-align: center;
-            z-index: 10;
-            border-radius: var(--radius);
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
 
-        .premium-overlay i {
-            font-size: 3rem;
-            color: var(--premium);
-            margin-bottom: 20px;
-            background: rgba(255, 215, 0, 0.1);
-            width: 70px;
-            height: 70px;
+        .step {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            transition: var(--transition);
         }
 
-        .premium-overlay h3 {
-            font-size: 1.6rem;
-            color: var(--dark);
-            margin-bottom: 15px;
-            font-weight: 700;
+        .step:hover .step-number {
+            transform: scale(1.1);
+            background: var(--accent);
         }
 
-        .premium-overlay p {
-            margin-bottom: 25px;
-            color: #495057;
-            font-size: 1rem;
-            max-width: 90%;
-            line-height: 1.6;
+        .step-content {
+            flex: 1;
         }
 
-        .support-dev {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-top: 15px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        /* Resume Preview */
-        .resume-preview {
-            background: var(--surface-alt);
-            border-radius: var(--radius);
-            padding: 25px;
-            min-height: 300px;
-            margin-top: 20px;
-            font-family: 'Georgia', serif;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05) inset;
-        }
-
-        .resume-header {
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        .resume-name {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 5px;
-        }
-
-        .resume-title {
-            font-size: 1.2rem;
+        .step-content h3 {
+            margin-bottom: 0.5rem;
             color: var(--primary);
-            font-weight: 600;
         }
 
-        .resume-contact {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-            font-size: 0.9rem;
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto 4rem;
         }
 
-        .resume-section {
-            margin-bottom: 20px;
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition);
         }
 
-        .resume-section h3 {
-            font-size: 1.3rem;
-            color: var(--secondary);
-            margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+        .faq-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .resume-item {
-            margin-bottom: 12px;
-        }
-
-        .resume-item-header {
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-weight: 600;
-            flex-wrap: wrap;
+            transition: var(--transition);
         }
 
-        .resume-item-subheader {
-            font-style: italic;
-            color: #555;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
+        .faq-question:hover {
+            background: rgba(0, 100, 0, 0.05);
         }
 
-        /* Modal */
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            border-top: 1px solid var(--gray-light);
+            display: none;
+        }
+
+        /* Cost Reduction Section */
+        .cost-reduction {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 4rem 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .cost-reduction h2 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .cost-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .cost-tip {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+
+        .cost-tip:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .cost-tip i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column a {
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--white);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--gray-light);
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -547,1485 +741,876 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
             align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
-            background: white;
+            background: var(--white);
             border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 600px;
             width: 90%;
-            max-width: 500px;
-            padding: 35px 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            max-height: 80vh;
+            overflow-y: auto;
             position: relative;
-            animation: modalFade 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes modalFade {
-            from { opacity: 0; transform: translateY(-30px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.8rem;
-            color: var(--gray);
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: var(--transition);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .close-modal:hover {
-            background: #f8f9fa;
-            color: var(--dark);
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header i {
-            font-size: 3rem;
-            color: var(--premium);
-            margin-bottom: 15px;
-        }
-
-        .modal-header h2 {
-            font-size: 1.8rem;
-            color: var(--dark);
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .premium-features {
-            list-style: none;
-            margin: 20px 0;
-        }
-
-        .premium-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1rem;
-        }
-
-        .premium-features li:last-child {
-            border-bottom: none;
-        }
-
-        .premium-features i {
-            color: var(--success);
-            font-size: 1.2rem;
-            min-width: 25px;
-        }
-
-        .payment-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .payment-info {
-            background: #f8f9fa;
-            padding: 18px;
-            border-radius: var(--radius);
-            font-size: 0.95rem;
-            color: #495057;
-            margin: 15px 0;
-            text-align: center;
-        }
-
-        .payment-info strong {
-            font-size: 1.3rem;
-            color: var(--primary);
-        }
-
-        .thank-you {
-            text-align: center;
-            padding: 25px 20px;
-            background: #e8f5e9;
-            border-radius: var(--radius);
-            margin-top: 20px;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .thank-you i {
-            color: #4caf50;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .thank-you h3 {
-            font-size: 1.6rem;
-            margin-bottom: 12px;
-            color: #2e7d32;
-        }
-
-        /* Status Bar */
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            font-size: 0.9rem;
-            color: #6c757d;
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-        }
-
-        .save-limit {
-            color: var(--danger);
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-        }
-
-        /* Feature Grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .feature-card {
-            background: var(--surface-alt);
-            padding: 18px;
-            border-radius: var(--radius);
-            text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .feature-card i {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .feature-card h4 {
-            font-size: 1.1rem;
-            margin-bottom: 6px;
-            color: var(--dark);
-        }
-
-        .locked-feature {
-            opacity: 0.6;
-            position: relative;
-            filter: grayscale(50%);
-        }
-
-        .locked-feature::after {
-            content: "🔒 Premium";
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: var(--premium);
-            color: #000;
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 15px 25px;
-            background: var(--dark);
-            color: white;
-            border-radius: var(--radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            max-width: 350px;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast i {
-            font-size: 1.3rem;
-        }
-
-        .toast.success {
-            background: #2e7d32;
-        }
-
-        .toast.error {
-            background: #c62828;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* History */
-        .history-list {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: var(--radius);
-            padding: 15px;
-        }
-
-        .history-item {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            transition: var(--transition);
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-item:hover {
-            background: #f8f9fa;
-        }
-
-        .history-date {
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 5px;
-            font-size: 0.95rem;
-        }
-
-        .history-content {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .history-focus {
-            flex: 1;
-            font-style: italic;
-            min-width: 200px;
-        }
-
-        .history-tasks {
-            flex: 2;
-            min-width: 250px;
-        }
-
-        /* Productivity Score */
-        .productivity-score {
-            font-size: 2.3rem;
-            font-weight: 800;
-            text-align: center;
-            margin: 15px 0;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .score-label {
-            text-align: center;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 25px;
-        }
-
-        .progress-section {
-            margin: 18px 0;
-        }
-
-        .progress-title {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), #4cc9f0);
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
-        .streak-container {
-            display: flex;
-            gap: 8px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .streak-day {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .streak-day.active {
-            background: var(--success);
-            color: white;
-        }
-
-        .streak-day.current {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Resume Form */
-        .resume-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .full-width {
-            grid-column: span 2;
-        }
-
-        /* Sidebar Mobile Menu */
-        .mobile-sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 280px;
-            height: 100%;
-            background: white;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            z-index: 999;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            padding-top: 70px;
-            overflow-y: auto;
-        }
-
-        .mobile-sidebar.active {
-            right: 0;
-        }
-
-        .mobile-tab {
-            padding: 18px 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-weight: 600;
-            color: var(--dark);
-            border-bottom: 1px solid #eee;
-            transition: all 0.2s;
-            font-size: 1.1rem;
-        }
-
-        .mobile-tab:hover {
-            background: #f5f7ff;
-            color: var(--primary);
-        }
-
-        .mobile-tab i {
-            width: 25px;
-            text-align: center;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            z-index: 998;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
+            color: var(--text-light);
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .tabs {
-                display: none;
-            }
-            
-            .resume-form {
+        @media (max-width: 992px) {
+            .calculator-container {
                 grid-template-columns: 1fr;
-            }
-            
-            .full-width {
-                grid-column: span 1;
-            }
-            
-            .dashboard {
-                gap: 20px;
-            }
-            
-            .card {
-                padding: 20px;
             }
         }
 
-        @media (max-width: 480px) {
-            .header-container {
-                padding: 12px 0;
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-dark);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             }
-            
-            .logo-text {
-                font-size: 1.6rem;
+
+            nav ul.show {
+                display: flex;
             }
-            
-            .premium-badge {
-                padding: 6px 12px;
-                font-size: 0.85rem;
+
+            .mobile-menu-btn {
+                display: block;
             }
-            
-            .dashboard {
-                margin-bottom: 30px;
-            }
-            
-            .card-title h2 {
-                font-size: 1.3rem;
-            }
-            
-            .productivity-score {
+
+            .hero h2 {
                 font-size: 2rem;
+            }
+
+            .step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .step-number {
+                align-self: flex-start;
+            }
+
+            .trust-badges {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Sidebar Menu -->
-    <div class="mobile-sidebar" id="mobileSidebar">
-        <div class="mobile-tab" data-tab="dashboard">
-            <i class="fas fa-chart-line"></i>
-            <span>Dashboard</span>
-        </div>
-        <div class="mobile-tab" data-tab="daily">
-            <i class="fas fa-calendar-day"></i>
-            <span>Daily Planner</span>
-        </div>
-        <div class="mobile-tab" data-tab="tasks">
-            <i class="fas fa-tasks"></i>
-            <span>Task Manager</span>
-        </div>
-        <div class="mobile-tab" data-tab="resume">
-            <i class="fas fa-file-alt"></i>
-            <span>Resume Builder</span>
-        </div>
-        <div class="mobile-tab" id="mobileUpgrade">
-            <i class="fas fa-crown"></i>
-            <span>Upgrade to Premium</span>
-        </div>
-    </div>
-    
-    <div class="overlay" id="overlay"></div>
+    <!-- Naira Animation Background -->
+    <div class="naira-animation" id="naira-animation"></div>
 
     <!-- Header -->
     <header>
         <div class="header-container">
             <div class="logo">
-                <div class="logo-icon">Lx</div>
-                <div class="logo-text">Lex</div>
-            </div>
-            
-            <div class="nav-container">
-                <div id="premiumBadge" class="premium-badge locked">
-                    <i class="fas fa-crown"></i>
-                    <span>Upgrade to Premium</span>
+                <div class="logo-icon">💰</div>
+                <div class="logo-text">
+                    <h1>Nigerian Tax Intelligence</h1>
+                    <p>Built for Nigerians, by Nigerians</p>
                 </div>
-                
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
+            </div>
+            <nav>
+                <ul id="nav-menu">
+                    <li><a href="#calculator" class="active"><i class="fas fa-calculator"></i> Calculator</a></li>
+                    <li><a href="#resources"><i class="fas fa-book"></i> Resources</a></li>
+                    <li><a href="#payment-methods"><i class="fas fa-credit-card"></i> Pay Tax</a></li>
+                    <li><a href="#sectors"><i class="fas fa-chart-pie"></i> Sector Insights</a></li>
+                    <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
-            </div>
+            </nav>
         </div>
     </header>
 
-    <!-- Dashboard Section -->
-    <div class="container">
-        <div class="tabs" id="tabsContainer">
-            <div class="tab active" data-tab="dashboard">
-                <i class="fas fa-chart-line"></i> Dashboard
-            </div>
-            <div class="tab" data-tab="daily">
-                <i class="fas fa-calendar-day"></i> Daily Planner
-            </div>
-            <div class="tab" data-tab="tasks">
-                <i class="fas fa-tasks"></i> Task Manager
-            </div>
-            <div class="tab" data-tab="resume">
-                <i class="fas fa-file-alt"></i> Resume Builder
-            </div>
-        </div>
-
-        <!-- Dashboard Tab -->
-        <div class="tab-content active" id="dashboard-tab">
-            <div class="dashboard">
-                <div class="card">
-                    <div class="card-title">
-                        <h2><i class="fas fa-chart-line"></i> Productivity Score</h2>
-                    </div>
-                    <div class="productivity-score" id="productivityScore">84</div>
-                    <div class="score-label">Your current productivity score</div>
-                    
-                    <div class="progress-section">
-                        <div class="progress-title">
-                            <span>Task Completion</span>
-                            <span>78%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 78%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="progress-section">
-                        <div class="progress-title">
-                            <span>Focus Time</span>
-                            <span>64%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 64%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="progress-section">
-                        <div class="progress-title">
-                            <span>Goal Achievement</span>
-                            <span>92%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 92%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-title" style="margin-top: 30px;">
-                        <h2><i class="fas fa-fire"></i> Streak Tracker</h2>
-                    </div>
-                    
-                    <div class="streak-container">
-                        <div class="streak-day active">M</div>
-                        <div class="streak-day active">T</div>
-                        <div class="streak-day active">W</div>
-                        <div class="streak-day current">T</div>
-                        <div class="streak-day">F</div>
-                        <div class="streak-day">S</div>
-                        <div class="streak-day">S</div>
-                    </div>
-                    <p style="text-align: center; font-weight: 600; margin-top: 10px;">3-day streak! Keep going!</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h2>Your Trusted Nigerian Tax Intelligence Platform</h2>
+            <p>Navigate the 2025/2026 Nigerian Tax Laws with confidence. Calculate your taxes, discover optimization strategies, and grow your business with insights built specifically for Nigerian entrepreneurs.</p>
+            <a href="#calculator" class="cta-button">Calculate Your Tax Now <i class="fas fa-arrow-right"></i></a>
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Secure & Private</span>
                 </div>
-                
-                <div class="card">
-                    <div class="card-title">
-                        <h2><i class="fas fa-bullseye"></i> Today's Focus</h2>
-                    </div>
-                    <div class="today-focus" id="todayFocus" style="font-size: 1.15rem; font-weight: 500; padding: 20px; background: #eef7ff; border-radius: var(--radius); margin-bottom: 20px;">
-                        Complete project proposal and prepare for client meeting
-                    </div>
-                    
-                    <div class="card-title">
-                        <h2><i class="fas fa-tasks"></i> Priority Tasks</h2>
-                    </div>
-                    <ul class="task-list">
-                        <li class="task-item">
-                            <input type="checkbox" class="task-check">
-                            <span class="task-text">Finalize project proposal document</span>
-                        </li>
-                        <li class="task-item">
-                            <input type="checkbox" class="task-check">
-                            <span class="task-text">Prepare presentation for client meeting</span>
-                        </li>
-                        <li class="task-item">
-                            <input type="checkbox" class="task-check" checked>
-                            <span class="task-text">Review team progress reports</span>
-                        </li>
-                        <li class="task-item">
-                            <input type="checkbox" class="task-check">
-                            <span class="task-text">Schedule next sprint planning</span>
-                        </li>
-                    </ul>
-                    
-                    <div class="thank-you" id="thankYouMessage">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Thank You for Your Support!</h3>
-                        <p>Premium features have been unlocked. Enjoy your enhanced productivity experience.</p>
-                    </div>
+                <div class="trust-badge">
+                    <i class="fas fa-bolt"></i>
+                    <span>Instant Calculations</span>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-leaf"></i>
+                    <span>Tax Optimization Tips</span>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Daily Planner Tab -->
-        <div class="tab-content" id="daily-tab">
-            <div class="dashboard">
-                <div class="card">
-                    <div class="card-title">
-                        <h2><i class="fas fa-calendar-day"></i> Today's Plan</h2>
-                    </div>
-                    <div class="form-group">
-                        <label for="dailyFocus"><i class="fas fa-bullseye"></i> Today's Focus</label>
-                        <input type="text" id="dailyFocus" placeholder="What's your main focus for today?">
-                    </div>
-                    <div class="form-group">
-                        <label for="dailyTasks"><i class="fas fa-tasks"></i> Key Tasks</label>
-                        <textarea id="dailyTasks" rows="6" placeholder="List your most important tasks..."></textarea>
-                    </div>
-                    <button id="saveDailyBtn" class="btn btn-block">
-                        <i class="fas fa-save"></i> Save Today's Plan
-                    </button>
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Tax Calculator Section -->
+        <section id="calculator">
+            <div class="section-title">
+                <h2>Intelligent Tax Calculator</h2>
+                <p>Accurate calculations based on the latest 2025/2026 Nigerian Tax Laws</p>
+            </div>
+            <div class="calculator-container">
+                <div class="calculator-card">
+                    <h3><i class="fas fa-user-tie"></i> Personal Income Tax</h3>
+                    <form id="personal-tax-form">
+                        <div class="form-group">
+                            <label for="annual-income">Annual Income (₦)</label>
+                            <input type="number" id="annual-income" class="form-control" placeholder="Enter your annual income">
+                        </div>
+                        <div class="form-group">
+                            <label for="income-type">Income Type</label>
+                            <select id="income-type" class="form-control">
+                                <option value="salary">Employment Salary</option>
+                                <option value="business">Business Income</option>
+                                <option value="rental">Rental Income</option>
+                                <option value="investment">Investment Income</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="allowances">Annual Allowances & Reliefs (₦)</label>
+                            <input type="number" id="allowances" class="form-control" placeholder="Pension, NHF, etc.">
+                        </div>
+                        <button type="submit" class="btn btn-block">Calculate Tax <i class="fas fa-calculator"></i></button>
+                    </form>
                 </div>
-                
-                <div class="card">
-                    <div class="card-title">
-                        <h2><i class="fas fa-history"></i> Plan History</h2>
-                    </div>
-                    <div class="history-list" id="historyList">
-                        <!-- History items will be populated here -->
-                    </div>
+
+                <div class="calculator-card">
+                    <h3><i class="fas fa-building"></i> Corporate Tax</h3>
+                    <form id="corporate-tax-form">
+                        <div class="form-group">
+                            <label for="company-turnover">Annual Turnover (₦)</label>
+                            <input type="number" id="company-turnover" class="form-control" placeholder="Enter annual turnover">
+                        </div>
+                        <div class="form-group">
+                            <label for="company-type">Company Type</label>
+                            <select id="company-type" class="form-control">
+                                <option value="small">Small Company (< ₦25M turnover)</option>
+                                <option value="medium">Medium Company (₦25M - ₦100M)</option>
+                                <option value="large">Large Company (> ₦100M)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sector">Business Sector</label>
+                            <select id="sector" class="form-control">
+                                <option value="agriculture">Agriculture</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="technology">Technology</option>
+                                <option value="services">Services</option>
+                                <option value="oil-gas">Oil & Gas</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-block">Calculate Tax <i class="fas fa-calculator"></i></button>
+                    </form>
                 </div>
             </div>
-        </div>
 
-        <!-- Task Manager Tab -->
-        <div class="tab-content" id="tasks-tab">
-            <div class="dashboard">
-                <div class="card">
-                    <div class="card-title">
-                        <h2><i class="fas fa-plus-circle"></i> Add New Task</h2>
+            <div class="result-card" id="tax-result" style="display: none;">
+                <h3>Your Tax Analysis</h3>
+                <div class="tax-amount" id="calculated-tax">₦0</div>
+                <div class="tax-breakdown">
+                    <div class="breakdown-item">
+                        <span>Taxable Income:</span>
+                        <span id="taxable-income">₦0</span>
                     </div>
-                    <div class="form-group">
-                        <label for="taskTitle"><i class="fas fa-heading"></i> Task Title</label>
-                        <input type="text" id="taskTitle" placeholder="What needs to be done?">
+                    <div class="breakdown-item">
+                        <span>Tax Rate:</span>
+                        <span id="tax-rate">0%</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="taskCategory"><i class="fas fa-tag"></i> Category</label>
-                        <select id="taskCategory">
-                            <option value="work">Work</option>
-                            <option value="personal">Personal</option>
-                            <option value="health">Health & Fitness</option>
-                            <option value="learning">Learning</option>
-                        </select>
+                    <div class="breakdown-item">
+                        <span>Allowances & Reliefs:</span>
+                        <span id="total-allowances">₦0</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="taskDueDate"><i class="fas fa-calendar"></i> Due Date</label>
-                        <input type="date" id="taskDueDate">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="taskPriority"><i class="fas fa-flag"></i> Priority</label>
-                        <select id="taskPriority">
-                            <option value="high">High</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="low">Low</option>
-                        </select>
-                    </div>
-                    
-                    <button id="addTaskBtn" class="btn btn-block">
-                        <i class="fas fa-plus"></i> Add Task
-                    </button>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title">
-                        <h2><i class="fas fa-list-check"></i> Your Tasks</h2>
-                    </div>
-                    
-                    <div class="task-filters" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-                        <button class="btn filter-btn active" data-filter="all">All</button>
-                        <button class="btn filter-btn" data-filter="work">Work</button>
-                        <button class="btn filter-btn" data-filter="personal">Personal</button>
-                        <button class="btn filter-btn" data-filter="health">Health</button>
-                        <button class="btn filter-btn" data-filter="learning">Learning</button>
-                    </div>
-                    
-                    <ul class="task-list" id="taskList">
-                        <!-- Tasks will be populated here -->
-                    </ul>
-                    
-                    <div class="status-bar">
-                        <div><i class="fas fa-tasks"></i> Total tasks: <span id="taskCount">0</span></div>
-                        <div><i class="fas fa-lock"></i> Free limit: <span id="taskLimit" class="save-limit">5 tasks</span></div>
+                    <div class="breakdown-item">
+                        <span><strong>Net Tax Payable:</strong></span>
+                        <span><strong id="net-tax">₦0</strong></span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Resume Builder Tab -->
-        <div class="tab-content" id="resume-tab">
-            <div class="card premium-feature">
-                <div class="card-title">
-                    <h2><i class="fas fa-file-contract"></i> Resume Builder</h2>
-                    <i class="fas fa-crown"></i>
+                <div class="tax-tip">
+                    <h4><i class="fas fa-lightbulb"></i> Optimization Strategy</h4>
+                    <p id="optimization-tip">Based on your profile, we recommend maximizing your pension contributions to reduce taxable income.</p>
                 </div>
-                
-                <div class="premium-overlay">
-                    <i class="fas fa-lock"></i>
-                    <h3>Premium Feature</h3>
-                    <p>Upgrade to Premium to create professional resumes with multiple templates, PDF export, and AI-powered suggestions.</p>
-                    <button id="unlockResumeBtn" class="btn btn-premium">
-                        <i class="fas fa-unlock"></i> Unlock Premium Features
-                    </button>
-                    <div class="support-dev">
-                        Support continued development by upgrading to Premium
-                    </div>
-                </div>
-                
-                <div class="resume-form">
-                    <div class="form-group full-width">
-                        <label for="resumeName"><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="resumeName" placeholder="Your full name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="resumeTitle"><i class="fas fa-briefcase"></i> Professional Title</label>
-                        <input type="text" id="resumeTitle" placeholder="e.g., Software Engineer">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="resumeEmail"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="resumeEmail" placeholder="your@email.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="resumePhone"><i class="fas fa-phone"></i> Phone</label>
-                        <input type="tel" id="resumePhone" placeholder="(123) 456-7890">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="resumeLocation"><i class="fas fa-map-marker-alt"></i> Location</label>
-                        <input type="text" id="resumeLocation" placeholder="City, Country">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="resumeWebsite"><i class="fas fa-globe"></i> Website/Portfolio</label>
-                        <input type="url" id="resumeWebsite" placeholder="https://yourportfolio.com">
-                    </div>
-                    
-                    <div class="form-group full-width">
-                        <label for="resumeSummary"><i class="fas fa-file-alt"></i> Professional Summary</label>
-                        <textarea id="resumeSummary" rows="4" placeholder="Briefly describe your professional background and key skills..."></textarea>
-                    </div>
-                </div>
-                
-                <div class="card-title">
-                    <h2><i class="fas fa-file-pdf"></i> Export Options</h2>
-                </div>
-                
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <i class="fas fa-paint-brush"></i>
-                        <h4>Professional Template</h4>
-                        <p>Modern and clean design</p>
-                    </div>
-                    <div class="feature-card locked-feature">
-                        <i class="fas fa-file-pdf"></i>
-                        <h4>PDF Export</h4>
-                        <p>Download as PDF</p>
-                    </div>
-                    <div class="feature-card locked-feature">
-                        <i class="fas fa-robot"></i>
-                        <h4>AI Optimization</h4>
-                        <p>Smart content suggestions</p>
-                    </div>
-                    <div class="feature-card locked-feature">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <h4>Cloud Sync</h4>
-                        <p>Access from any device</p>
-                    </div>
-                </div>
-                
-                <button id="generateResumeBtn" class="btn btn-premium btn-block">
-                    <i class="fas fa-magic"></i> Generate Professional Resume
+                <button class="btn btn-accent" id="save-result" style="margin-top: 1rem;">
+                    <i class="fas fa-download"></i> Save This Calculation
                 </button>
-                
-                <div class="card-title" style="margin-top: 30px;">
-                    <h2><i class="fas fa-eye"></i> Resume Preview</h2>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources">
+            <div class="section-title">
+                <h2>Tax Resources</h2>
+                <p>Everything you need to stay compliant and informed</p>
+            </div>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                    <h3>Tax Law Updates</h3>
+                    <p>Stay current with the latest changes to Nigerian tax legislation and regulations.</p>
+                    <button class="btn" onclick="openModal('law-updates')">View Updates</button>
                 </div>
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3>Compliance Checklist</h3>
+                    <p>Ensure you meet all tax obligations with our comprehensive compliance checklist.</p>
+                    <button class="btn" onclick="openModal('compliance-checklist')">View Checklist</button>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Sector Reports</h3>
+                    <p>Detailed analysis of tax implications and opportunities across various industries.</p>
+                    <button class="btn" onclick="openModal('sector-reports')">View Reports</button>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Tax Calendar</h3>
+                    <p>Never miss a deadline with our comprehensive tax calendar and reminders.</p>
+                    <button class="btn" onclick="openModal('tax-calendar')">View Calendar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tax Payment Methods -->
+        <section id="payment-methods">
+            <div class="section-title">
+                <h2>Pay Your Taxes Easily</h2>
+                <p>Multiple secure payment options for your convenience</p>
+            </div>
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <div class="payment-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Bank Payment</h3>
+                    <p>Pay directly at any commercial bank with your Tax Identification Number (TIN).</p>
+                    <button class="btn" onclick="openModal('bank-payment')">Learn More</button>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Online Payment</h3>
+                    <p>Pay securely through the FIRS e-TaxPay platform from anywhere.</p>
+                    <button class="btn" onclick="openModal('online-payment')">Learn More</button>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">
+                        <i class="fas fa-money-check-alt"></i>
+                    </div>
+                    <h3>POS Payment</h3>
+                    <p>Convenient payment at designated POS locations across Nigeria.</p>
+                    <button class="btn" onclick="openModal('pos-payment')">Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Reduction Section -->
+        <section id="cost-reduction">
+            <div class="section-title">
+                <h2>Reduce Your Business Costs</h2>
+                <p>Smart strategies to optimize expenses and increase profitability</p>
+            </div>
+            
+            <div class="cost-reduction">
+                <h2>Tax Efficiency Leads to Business Growth</h2>
+                <p>Implement these cost-saving strategies to keep more of your hard-earned money</p>
                 
-                <div class="resume-preview" id="resumePreview">
-                    <div class="resume-header">
-                        <div class="resume-name" id="previewName">John Doe</div>
-                        <div class="resume-title" id="previewTitle">Senior Software Engineer</div>
-                        <div class="resume-contact">
-                            <div id="previewEmail">john.doe@example.com</div>
-                            <div id="previewPhone">(123) 456-7890</div>
-                            <div id="previewLocation">San Francisco, CA</div>
-                        </div>
+                <div class="cost-tips">
+                    <div class="cost-tip">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <h3>Claim All Allowable Expenses</h3>
+                        <p>Track and document all business-related expenses to reduce your taxable income.</p>
                     </div>
-                    
-                    <div class="resume-section">
-                        <h3>Professional Summary</h3>
-                        <p id="previewSummary">Experienced software engineer with 8+ years of expertise in developing scalable web applications. Specialized in JavaScript frameworks and cloud technologies. Passionate about creating efficient, user-friendly solutions.</p>
+                    <div class="cost-tip">
+                        <i class="fas fa-users"></i>
+                        <h3>Hire Strategically</h3>
+                        <p>Utilize government incentives for hiring certain categories of employees.</p>
                     </div>
-                    
-                    <div class="resume-section">
-                        <h3>Work Experience</h3>
-                        <div class="resume-item">
-                            <div class="resume-item-header">
-                                <div>Senior Software Engineer</div>
-                                <div>2020 - Present</div>
-                            </div>
-                            <div class="resume-item-subheader">Tech Solutions Inc., San Francisco</div>
-                            <p>Lead development of enterprise SaaS platform serving 500+ clients globally. Implemented microservices architecture reducing latency by 40%.</p>
-                        </div>
-                        
-                        <div class="resume-item">
-                            <div class="resume-item-header">
-                                <div>Software Engineer</div>
-                                <div>2016 - 2020</div>
-                            </div>
-                            <div class="resume-item-subheader">Innovate Startup, Seattle</div>
-                            <p>Developed and launched mobile application reaching 100,000+ users. Implemented CI/CD pipeline reducing deployment time by 70%.</p>
-                        </div>
+                    <div class="cost-tip">
+                        <i class="fas fa-tools"></i>
+                        <h3>Invest in Equipment</h3>
+                        <p>Take advantage of capital allowances on qualifying business equipment.</p>
+                    </div>
+                    <div class="cost-tip">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Location Matters</h3>
+                        <p>Consider establishing in economic zones for tax holidays and incentives.</p>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <footer>
-            <p>Lex Productivity Suite &copy; 2023 | All data is stored locally in your browser for maximum privacy</p>
-            <p class="support-dev">Support ongoing development by <a href="#" id="footerUpgrade">upgrading to Premium</a></p>
-        </footer>
-    </div>
+        </section>
 
-    <!-- Payment Modal -->
-    <div class="modal" id="paymentModal">
+        <!-- Sector Insights Section -->
+        <section id="sectors">
+            <div class="section-title">
+                <h2>Sector-Specific Tax Strategies</h2>
+                <p>Tailored approaches for different industries in Nigeria</p>
+            </div>
+            <div class="sectors-grid">
+                <div class="sector-card">
+                    <div class="sector-header">
+                        <h3><i class="fas fa-tractor"></i> Agriculture</h3>
+                    </div>
+                    <div class="sector-body">
+                        <p>Tax incentives for agricultural businesses include:</p>
+                        <ul>
+                            <li>Tax holidays for agro-processing companies</li>
+                            <li>Accelerated capital allowances for farm equipment</li>
+                            <li>Export expansion grant for agricultural exports</li>
+                            <li>Customs duty waivers for agricultural machinery</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sector-card">
+                    <div class="sector-header">
+                        <h3><i class="fas fa-industry"></i> Manufacturing</h3>
+                    </div>
+                    <div class="sector-body">
+                        <p>Strategic tax benefits for manufacturers:</p>
+                        <ul>
+                            <li>Pioneer status tax holidays (up to 5 years)</li>
+                            <li>Investment tax credits for capital investments</li>
+                            <li>R&D tax incentives for innovation</li>
+                            <li>Reduced customs duties on raw materials</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sector-card">
+                    <div class="sector-header">
+                        <h3><i class="fas fa-laptop-code"></i> Technology</h3>
+                    </div>
+                    <div class="sector-body">
+                        <p>Tax optimization for tech companies:</p>
+                        <ul>
+                            <li>Software development tax incentives</li>
+                            <li>IP registration and patent box regimes</li>
+                            <li>Startup investment tax credits</li>
+                            <li>Reduced VAT on digital services</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tax Payment Guide -->
+        <section id="payment">
+            <div class="section-title">
+                <h2>Tax Payment & Compliance Guide</h2>
+                <p>Step-by-step process to fulfill your tax obligations</p>
+            </div>
+            <div class="payment-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Registration</h3>
+                        <p>Register with the Federal Inland Revenue Service (FIRS) for a Tax Identification Number (TIN). This is mandatory for all taxpayers and can be done online through the FIRS e-Registration portal.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Assessment</h3>
+                        <p>Determine your tax obligations based on your income sources, business activities, and applicable tax laws. Use our intelligent calculator above for accurate assessment.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Filing</h3>
+                        <p>Submit your tax returns electronically through the FIRS e-Filing platform. Ensure all required documents are attached and declarations are accurate to avoid penalties.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Payment</h3>
+                        <p>Make tax payments through designated banks, online transfer, or the FIRS e-Payment platform. Always obtain and keep payment confirmation receipts.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Compliance</h3>
+                        <p>Maintain proper records, file annual returns, and respond promptly to any inquiries from tax authorities. Consider engaging a tax professional for complex matters.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers to common tax questions</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What are the key changes in the 2025 Nigerian Tax Laws?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The 2025 tax reforms introduced several significant changes including revised tax bands for individuals, increased thresholds for small businesses, new digital service taxes, enhanced incentives for specific sectors like agriculture and manufacturing, and simplified compliance procedures for SMEs.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How can I reduce my company's tax liability legally?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Legal tax optimization strategies include maximizing allowable deductions, taking advantage of sector-specific incentives, structuring investments to qualify for capital allowances, implementing employee benefit programs that offer tax advantages, and timing income and expenses strategically across financial years.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What records should I maintain for tax purposes?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You should maintain comprehensive records including income statements, expense receipts, bank statements, payroll records, asset purchase documents, tax filing documents, and supporting documents for all deductions and credits claimed. Digital records are acceptable if properly organized and accessible.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Are there tax incentives for exporting companies?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, the Nigerian Export Promotion Council offers several incentives including the Export Expansion Grant, which provides tax credits based on export performance. Additionally, exporters may benefit from customs duty waivers on imported raw materials and machinery used for export production.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Nigerian Tax Intelligence</h3>
+                <p>Nigeria's premier tax intelligence platform, providing cutting-edge analysis and optimization strategies based on the latest tax legislation. Built for Nigerians, by Nigerians.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#calculator">Tax Calculator</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#payment-methods">Pay Tax</a></li>
+                    <li><a href="#sectors">Sector Insights</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#" onclick="openModal('law-updates')">Tax Law Updates</a></li>
+                    <li><a href="#" onclick="openModal('compliance-checklist')">Compliance Checklist</a></li>
+                    <li><a href="#" onclick="openModal('sector-reports')">Sector Reports</a></li>
+                    <li><a href="#" onclick="openModal('tax-calendar')">Tax Calendar</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@taxintelligence.ng</li>
+                    <li><i class="fas fa-phone"></i> +234 800 TAX NIGERIA</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Nigerian Tax Intelligence. All rights reserved. This tool provides estimates based on current tax laws and should not be considered as professional tax advice.</p>
+        </div>
+    </footer>
+
+    <!-- Modals for Resources -->
+    <div class="modal" id="law-updates-modal">
         <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
-            <div class="modal-header">
-                <i class="fas fa-crown"></i>
-                <h2>Unlock Premium Features</h2>
-                <p>Get lifetime access with a single payment</p>
-            </div>
-            
-            <ul class="premium-features">
-                <li><i class="fas fa-check-circle"></i> Unlimited task storage</li>
-                <li><i class="fas fa-check-circle"></i> Professional resume builder</li>
-                <li><i class="fas fa-check-circle"></i> PDF export for plans & resumes</li>
-                <li><i class="fas fa-check-circle"></i> AI-powered content suggestions</li>
-                <li><i class="fas fa-check-circle"></i> Priority feature requests</li>
-                <li><i class="fas fa-check-circle"></i> Early access to new features</li>
+            <button class="close-modal" onclick="closeModal('law-updates-modal')">&times;</button>
+            <h2>Tax Law Updates</h2>
+            <p>Stay informed about the latest changes to Nigerian tax legislation:</p>
+            <ul>
+                <li><strong>January 2025:</strong> Introduction of new digital service tax for online businesses</li>
+                <li><strong>March 2025:</strong> Revised tax bands for personal income tax</li>
+                <li><strong>June 2025:</strong> Enhanced incentives for agricultural sector</li>
+                <li><strong>September 2025:</strong> Simplified compliance procedures for SMEs</li>
             </ul>
-            
-            <div class="payment-info">
-                <p>One-time payment: <strong>$14.99</strong></p>
-                <p>Lifetime access to all current and future premium features</p>
-            </div>
-            
-            <div class="payment-form">
-                <div class="form-group">
-                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="email" placeholder="your@email.com" required>
-                </div>
-                
-                <button id="payButton" class="btn btn-premium btn-block">
-                    <span id="payButtonText"><i class="fas fa-lock"></i> Unlock Premium for $14.99</span>
-                </button>
-                
-                <div class="support-dev">
-                    Your payment directly supports the continued development of Lex
-                </div>
-            </div>
+            <p>Subscribe to our newsletter to receive regular updates on tax law changes.</p>
         </div>
     </div>
 
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Operation completed successfully</span>
+    <div class="modal" id="compliance-checklist-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('compliance-checklist-modal')">&times;</button>
+            <h2>Compliance Checklist</h2>
+            <p>Ensure you meet all your tax obligations with this comprehensive checklist:</p>
+            <ul>
+                <li>✓ Register for Tax Identification Number (TIN)</li>
+                <li>✓ File annual tax returns by due date</li>
+                <li>✓ Maintain proper accounting records</li>
+                <li>✓ Pay taxes due on or before due dates</li>
+                <li>✓ Keep receipts for all deductible expenses</li>
+                <li>✓ Submit required documents with tax returns</li>
+                <li>✓ Respond to tax authority inquiries promptly</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal" id="sector-reports-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('sector-reports-modal')">&times;</button>
+            <h2>Sector Reports</h2>
+            <p>Detailed analysis of tax implications across various industries:</p>
+            <ul>
+                <li><strong>Agriculture:</strong> Tax holidays, equipment allowances, export incentives</li>
+                <li><strong>Manufacturing:</strong> Pioneer status, R&D credits, import duty waivers</li>
+                <li><strong>Technology:</strong> IP incentives, startup credits, digital service taxes</li>
+                <li><strong>Services:</strong> VAT considerations, professional deductions</li>
+                <li><strong>Oil & Gas:</strong> PPT calculations, cost recovery, gas incentives</li>
+            </ul>
+            <p>Download our comprehensive sector reports for detailed analysis.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="tax-calendar-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('tax-calendar-modal')">&times;</button>
+            <h2>Tax Calendar</h2>
+            <p>Important tax deadlines for the current year:</p>
+            <ul>
+                <li><strong>January 31:</strong> Personal income tax returns (employees)</li>
+                <li><strong>March 31:</strong> Company income tax returns</li>
+                <li><strong>April 30:</strong> Value Added Tax (VAT) returns</li>
+                <li><strong>June 30:</strong> Mid-year tax payments</li>
+                <li><strong>September 30:</strong> Education tax returns</li>
+                <li><strong>December 31:</strong> Annual tax clearance certificate renewal</li>
+            </ul>
+            <p>Set up reminders for these important deadlines to avoid penalties.</p>
+        </div>
+    </div>
+
+    <!-- Modals for Payment Methods -->
+    <div class="modal" id="bank-payment-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('bank-payment-modal')">&times;</button>
+            <h2>Bank Payment</h2>
+            <p>Pay your taxes directly at any commercial bank:</p>
+            <ol>
+                <li>Visit any commercial bank with your Tax Identification Number (TIN)</li>
+                <li>Request a tax payment slip</li>
+                <li>Fill in your details and the tax amount</li>
+                <li>Make payment at the counter</li>
+                <li>Collect your payment receipt</li>
+            </ol>
+            <p><strong>Note:</strong> Keep your payment receipt as proof of payment for at least 6 years.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="online-payment-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('online-payment-modal')">&times;</button>
+            <h2>Online Payment</h2>
+            <p>Pay your taxes securely through the FIRS e-TaxPay platform:</p>
+            <ol>
+                <li>Visit the FIRS e-TaxPay portal (https://etax.firs.gov.ng)</li>
+                <li>Login with your TIN and password</li>
+                <li>Select the tax type and assessment year</li>
+                <li>Enter the payment amount</li>
+                <li>Choose your payment method (card, bank transfer, etc.)</li>
+                <li>Complete the payment and download your receipt</li>
+            </ol>
+            <p><strong>Note:</strong> Online payments are processed instantly and receipts are available immediately.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="pos-payment-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('pos-payment-modal')">&times;</button>
+            <h2>POS Payment</h2>
+            <p>Pay your taxes at designated POS locations:</p>
+            <ol>
+                <li>Visit any FIRS-approved POS location</li>
+                <li>Provide your TIN and tax details</li>
+                <li>Make payment with your debit card</li>
+                <li>Collect your payment receipt</li>
+            </ol>
+            <p><strong>Note:</strong> POS payments are convenient for small to medium tax amounts and are available in urban centers across Nigeria.</p>
+        </div>
     </div>
 
     <script>
-        // App State
-        let state = {
-            isPremium: localStorage.getItem('lex_premium') === 'true',
-            dailyPlans: JSON.parse(localStorage.getItem('lex_daily_plans')) || [],
-            tasks: JSON.parse(localStorage.getItem('lex_tasks')) || [],
-            resumeData: JSON.parse(localStorage.getItem('lex_resume_data')) || {
-                name: "John Doe",
-                title: "Senior Software Engineer",
-                email: "john.doe@example.com",
-                phone: "(123) 456-7890",
-                location: "San Francisco, CA",
-                website: "",
-                summary: "Experienced software engineer with 8+ years of expertise in developing scalable web applications. Specialized in JavaScript frameworks and cloud technologies. Passionate about creating efficient, user-friendly solutions."
+        // Create floating naira animation
+        function createNairaAnimation() {
+            const container = document.getElementById('naira-animation');
+            const nairaSymbols = ['₦', '💰', '💵', '💷'];
+            
+            for (let i = 0; i < 30; i++) {
+                const naira = document.createElement('div');
+                naira.className = 'naira-note';
+                naira.textContent = nairaSymbols[Math.floor(Math.random() * nairaSymbols.length)];
+                
+                // Random properties
+                naira.style.left = Math.random() * 100 + 'vw';
+                naira.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                naira.style.animationDelay = Math.random() * 15 + 's';
+                naira.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                
+                container.appendChild(naira);
             }
-        };
-        
-        // DOM Elements
-        const elements = {
-            // Mobile Menu
-            mobileMenuBtn: document.getElementById('mobileMenuBtn'),
-            mobileSidebar: document.getElementById('mobileSidebar'),
-            overlay: document.getElementById('overlay'),
-            mobileUpgrade: document.getElementById('mobileUpgrade'),
-            
-            // Tabs
-            tabsContainer: document.getElementById('tabsContainer'),
-            
-            // Premium
-            premiumBadge: document.getElementById('premiumBadge'),
-            unlockResumeBtn: document.getElementById('unlockResumeBtn'),
-            footerUpgrade: document.getElementById('footerUpgrade'),
-            
-            // Payment Modal
-            paymentModal: document.getElementById('paymentModal'),
-            closeModal: document.getElementById('closeModal'),
-            payButton: document.getElementById('payButton'),
-            payButtonText: document.getElementById('payButtonText'),
-            email: document.getElementById('email'),
-            
-            // Toast
-            toast: document.getElementById('toast'),
-            toastMessage: document.getElementById('toastMessage'),
-            thankYouMessage: document.getElementById('thankYouMessage'),
-            
-            // Daily Planner
-            dailyFocus: document.getElementById('dailyFocus'),
-            dailyTasks: document.getElementById('dailyTasks'),
-            saveDailyBtn: document.getElementById('saveDailyBtn'),
-            historyList: document.getElementById('historyList'),
-            
-            // Task Manager
-            taskTitle: document.getElementById('taskTitle'),
-            taskCategory: document.getElementById('taskCategory'),
-            taskDueDate: document.getElementById('taskDueDate'),
-            taskPriority: document.getElementById('taskPriority'),
-            addTaskBtn: document.getElementById('addTaskBtn'),
-            taskList: document.getElementById('taskList'),
-            taskCount: document.getElementById('taskCount'),
-            taskLimit: document.getElementById('taskLimit'),
-            
-            // Resume Builder
-            resumeName: document.getElementById('resumeName'),
-            resumeTitle: document.getElementById('resumeTitle'),
-            resumeEmail: document.getElementById('resumeEmail'),
-            resumePhone: document.getElementById('resumePhone'),
-            resumeLocation: document.getElementById('resumeLocation'),
-            resumeWebsite: document.getElementById('resumeWebsite'),
-            resumeSummary: document.getElementById('resumeSummary'),
-            generateResumeBtn: document.getElementById('generateResumeBtn'),
-            resumePreview: document.getElementById('resumePreview'),
-            
-            // Preview elements
-            previewName: document.getElementById('previewName'),
-            previewTitle: document.getElementById('previewTitle'),
-            previewEmail: document.getElementById('previewEmail'),
-            previewPhone: document.getElementById('previewPhone'),
-            previewLocation: document.getElementById('previewLocation'),
-            previewSummary: document.getElementById('previewSummary')
-        };
-        
-        // Initialize Application
-        function initApp() {
-            setupEventListeners();
-            renderUI();
-            updatePremiumUI();
-            updateResumeFields();
-            updateResumePreview();
-            
-            // Initialize with sample data if empty
-            if (state.dailyPlans.length === 0) {
-                state.dailyPlans = [
-                    {
-                        date: new Date(2023, 9, 18).toISOString(),
-                        focus: "Client meeting preparation",
-                        tasks: "Project review\nPresentation slides\nBudget analysis"
-                    },
-                    {
-                        date: new Date(2023, 9, 17).toISOString(),
-                        focus: "Team sprint planning",
-                        tasks: "Define sprint goals\nAssign tasks\nEstimate timelines"
-                    }
-                ];
-                saveState();
-            }
-            
-            if (state.tasks.length === 0) {
-                state.tasks = [
-                    { id: Date.now(), title: "Complete project proposal document", category: "work", dueDate: "", priority: "high", completed: false },
-                    { id: Date.now() + 1, title: "Review team progress reports", category: "work", dueDate: "", priority: "medium", completed: true },
-                    { id: Date.now() + 2, title: "Prepare client presentation", category: "work", dueDate: "", priority: "high", completed: false }
-                ];
-                saveState();
-            }
-            
-            // Set today's date as default for due date
-            const today = new Date().toISOString().split('T')[0];
-            elements.taskDueDate.value = today;
         }
-        
-        // Set up event listeners
-        function setupEventListeners() {
-            // Mobile Menu
-            elements.mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-            elements.overlay.addEventListener('click', toggleMobileMenu);
+
+        // Tax calculation logic
+        document.getElementById('personal-tax-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculatePersonalTax();
+        });
+
+        document.getElementById('corporate-tax-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateCorporateTax();
+        });
+
+        // Personal Income Tax Calculation
+        function calculatePersonalTax() {
+            const income = parseFloat(document.getElementById('annual-income').value) || 0;
+            const allowances = parseFloat(document.getElementById('allowances').value) || 0;
+            const incomeType = document.getElementById('income-type').value;
             
-            // Mobile Menu Tabs
-            document.querySelectorAll('.mobile-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    if(tabId) {
-                        activateTab(tabId);
-                        toggleMobileMenu();
+            // Tax bands for 2025 (example values)
+            const taxBands = [
+                { min: 0, max: 800000, rate: 0 },
+                { min: 800001, max: 5000000, rate: 0.15 },
+                { min: 5000001, max: 15000000, rate: 0.20 },
+                { min: 15000001, max: Infinity, rate: 0.25 }
+            ];
+            
+            let taxableIncome = income - allowances;
+            let tax = 0;
+            let remainingIncome = taxableIncome;
+            
+            // Calculate tax using progressive bands
+            for (const band of taxBands) {
+                if (remainingIncome <= 0) break;
+                
+                const bandWidth = band.max - band.min + 1;
+                const taxableInBand = Math.min(remainingIncome, bandWidth);
+                tax += taxableInBand * band.rate;
+                remainingIncome -= taxableInBand;
+            }
+            
+            // Determine effective tax rate
+            const effectiveRate = tax / income;
+            
+            // Display results
+            document.getElementById('taxable-income').textContent = `₦${taxableIncome.toLocaleString()}`;
+            document.getElementById('tax-rate').textContent = `${(effectiveRate * 100).toFixed(1)}%`;
+            document.getElementById('total-allowances').textContent = `₦${allowances.toLocaleString()}`;
+            document.getElementById('net-tax').textContent = `₦${Math.round(tax).toLocaleString()}`;
+            document.getElementById('calculated-tax').textContent = `₦${Math.round(tax).toLocaleString()}`;
+            
+            // Generate optimization tip based on income type
+            let tip = '';
+            switch(incomeType) {
+                case 'salary':
+                    tip = "Consider maximizing your pension contributions (up to 25% of annual income) and National Housing Fund contributions to reduce your taxable income. Also explore available reliefs for dependents.";
+                    break;
+                case 'business':
+                    tip = "Ensure you're claiming all legitimate business expenses. Consider structuring your business to qualify for small business exemptions if applicable. Explore investment in qualifying capital assets for capital allowances.";
+                    break;
+                case 'rental':
+                    tip = "Maximize deductions for property maintenance, insurance, and management fees. Consider restructuring property ownership for optimal tax efficiency. Explore available capital allowances on qualifying improvements.";
+                    break;
+                case 'investment':
+                    tip = "Review your investment portfolio for tax-efficient instruments. Consider timing of capital gains realization and explore tax-exempt investment options where available.";
+                    break;
+            }
+            
+            document.getElementById('optimization-tip').textContent = tip;
+            document.getElementById('tax-result').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('tax-result').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Corporate Tax Calculation
+        function calculateCorporateTax() {
+            const turnover = parseFloat(document.getElementById('company-turnover').value) || 0;
+            const companyType = document.getElementById('company-type').value;
+            const sector = document.getElementById('sector').value;
+            
+            let taxRate = 0.30; // Default CIT rate
+            let tax = 0;
+            
+            // Adjust tax rate based on company type
+            switch(companyType) {
+                case 'small':
+                    if (turnover <= 25000000) {
+                        taxRate = 0; // Small business exemption
+                    } else {
+                        taxRate = 0.20; // Reduced rate for small companies
                     }
-                });
-            });
+                    break;
+                case 'medium':
+                    taxRate = 0.25; // Medium company rate
+                    break;
+                case 'large':
+                    taxRate = 0.30; // Standard CIT rate
+                    break;
+            }
             
-            // Tab Navigation
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    activateTab(tabId);
-                });
-            });
+            // Apply sector-specific incentives
+            let sectorDiscount = 0;
+            switch(sector) {
+                case 'agriculture':
+                    sectorDiscount = 0.05; // 5% discount for agriculture
+                    break;
+                case 'manufacturing':
+                    sectorDiscount = 0.03; // 3% discount for manufacturing
+                    break;
+                case 'technology':
+                    sectorDiscount = 0.04; // 4% discount for technology
+                    break;
+            }
             
-            // Premium Upgrade
-            elements.premiumBadge.addEventListener('click', showPaymentModal);
-            elements.unlockResumeBtn.addEventListener('click', showPaymentModal);
-            elements.footerUpgrade.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPaymentModal();
-            });
-            elements.mobileUpgrade.addEventListener('click', showPaymentModal);
-            elements.closeModal.addEventListener('click', hidePaymentModal);
+            taxRate = Math.max(0, taxRate - sectorDiscount);
+            tax = turnover * taxRate;
             
-            // Payment Handler
-            elements.payButton.addEventListener('click', handlePayment);
+            // Display results
+            document.getElementById('taxable-income').textContent = `₦${turnover.toLocaleString()}`;
+            document.getElementById('tax-rate').textContent = `${(taxRate * 100).toFixed(1)}%`;
+            document.getElementById('total-allowances').textContent = `Sector incentive: ${(sectorDiscount * 100).toFixed(1)}%`;
+            document.getElementById('net-tax').textContent = `₦${Math.round(tax).toLocaleString()}`;
+            document.getElementById('calculated-tax').textContent = `₦${Math.round(tax).toLocaleString()}`;
             
-            // Daily Planner
-            elements.saveDailyBtn.addEventListener('click', saveDailyPlan);
+            // Generate optimization tip based on sector
+            let tip = '';
+            switch(sector) {
+                case 'agriculture':
+                    tip = "Explore additional incentives such as tax holidays for agro-processing, accelerated capital allowances, and export expansion grants. Consider qualifying for pioneer status if introducing new agricultural products.";
+                    break;
+                case 'manufacturing':
+                    tip = "Maximize capital allowances on qualifying equipment and machinery. Explore R&D tax credits and investment tax allowances. Consider applying for pioneer status if operating in qualifying industries.";
+                    break;
+                case 'technology':
+                    tip = "Leverage software development incentives and IP registration benefits. Explore available grants for tech innovation and consider structuring to benefit from startup investment tax credits.";
+                    break;
+                case 'services':
+                    tip = "Ensure optimal classification of service offerings to benefit from reduced VAT rates where applicable. Consider location-based incentives for establishing in economic zones.";
+                    break;
+                case 'oil-gas':
+                    tip = "Optimize Petroleum Profit Tax calculations through proper cost recovery mechanisms. Explore available investment tax credits and consider structuring to benefit from gas utilization incentives.";
+                    break;
+            }
             
-            // Task Manager
-            elements.addTaskBtn.addEventListener('click', addTask);
+            document.getElementById('optimization-tip').textContent = tip;
+            document.getElementById('tax-result').style.display = 'block';
             
-            // Resume Builder
-            const resumeFields = ['resumeName', 'resumeTitle', 'resumeEmail', 'resumePhone', 'resumeLocation', 'resumeWebsite', 'resumeSummary'];
-            resumeFields.forEach(field => {
-                document.getElementById(field).addEventListener('input', () => {
-                    saveResumeData();
-                    updateResumePreview();
-                });
-            });
-            
-            elements.generateResumeBtn.addEventListener('click', generateResumePDF);
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', (e) => {
-                if (e.target === elements.paymentModal) {
-                    hidePaymentModal();
+            // Scroll to results
+            document.getElementById('tax-result').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    icon.className = 'fas fa-chevron-down';
+                } else {
+                    answer.style.display = 'block';
+                    icon.className = 'fas fa-chevron-up';
                 }
             });
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const navMenu = document.getElementById('nav-menu');
+            navMenu.classList.toggle('show');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                const navMenu = document.getElementById('nav-menu');
+                navMenu.classList.remove('show');
+            });
+        });
+
+        // Save result button
+        document.getElementById('save-result').addEventListener('click', () => {
+            alert('Calculation saved! In a full implementation, this would save to your account or download as PDF.');
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId + '-modal').style.display = 'flex';
         }
-        
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            elements.mobileSidebar.classList.toggle('active');
-            elements.overlay.classList.toggle('active');
-            document.body.classList.toggle('no-scroll');
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
-        
-        // Render UI based on state
-        function renderUI() {
-            renderDailyPlans();
-            renderTasks();
-            updateTaskCounter();
-        }
-        
-        // Update UI based on premium status
-        function updatePremiumUI() {
-            if (state.isPremium) {
-                elements.premiumBadge.innerHTML = '<i class="fas fa-crown"></i> Premium Activated';
-                elements.premiumBadge.classList.remove('locked');
-                document.querySelectorAll('.premium-overlay').forEach(el => el.style.display = 'none');
-                document.querySelectorAll('.locked-feature').forEach(el => el.classList.remove('locked-feature'));
-                elements.thankYouMessage.style.display = 'block';
-                elements.taskLimit.style.display = 'none';
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            document.querySelectorAll('.modal').forEach(modal => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // Initialize animations
+        createNairaAnimation();
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
             } else {
-                elements.premiumBadge.innerHTML = '<i class="fas fa-crown"></i> Upgrade to Premium';
-                elements.premiumBadge.classList.add('locked');
-                elements.thankYouMessage.style.display = 'none';
-                elements.taskLimit.style.display = 'inline';
+                header.style.boxShadow = 'var(--shadow)';
             }
-        }
-        
-        // Save application state
-        function saveState() {
-            localStorage.setItem('lex_premium', state.isPremium.toString());
-            localStorage.setItem('lex_daily_plans', JSON.stringify(state.dailyPlans));
-            localStorage.setItem('lex_tasks', JSON.stringify(state.tasks));
-            localStorage.setItem('lex_resume_data', JSON.stringify(state.resumeData));
-        }
-        
-        // Activate tab
-        function activateTab(tabId) {
-            // Remove active class from all tabs
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            // Hide all tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Add active class to clicked tab
-            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
-            // Show the selected tab content
-            document.getElementById(`${tabId}-tab`).classList.add('active');
-            
-            // Scroll to top of the page
-            window.scrollTo(0, 0);
-        }
-        
-        // Daily Planner Functions
-        function saveDailyPlan() {
-            const focus = elements.dailyFocus.value.trim();
-            const tasks = elements.dailyTasks.value.trim();
-            
-            if (!focus || !tasks) {
-                showToast('Please enter both focus and tasks', 'error');
-                return;
-            }
-            
-            // Create new daily plan
-            const newPlan = {
-                date: new Date().toISOString(),
-                focus: focus,
-                tasks: tasks
-            };
-            
-            // Add to beginning of array
-            state.dailyPlans.unshift(newPlan);
-            saveState();
-            
-            // Update UI
-            renderDailyPlans();
-            showToast('Daily plan saved successfully!', 'success');
-            
-            // Clear form
-            elements.dailyFocus.value = '';
-            elements.dailyTasks.value = '';
-        }
-        
-        function renderDailyPlans() {
-            elements.historyList.innerHTML = '';
-            
-            if (state.dailyPlans.length === 0) {
-                elements.historyList.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: #6c757d;">
-                        <i class="fas fa-history" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>No saved plans yet. Create your first daily plan!</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            state.dailyPlans.forEach(plan => {
-                const date = new Date(plan.date);
-                const dateString = date.toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
-                
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.innerHTML = `
-                    <div class="history-date">${dateString}</div>
-                    <div class="history-content">
-                        <div class="history-focus">${plan.focus}</div>
-                        <div class="history-tasks">${plan.tasks.split('\n').join(', ')}</div>
-                    </div>
-                `;
-                elements.historyList.appendChild(historyItem);
-            });
-        }
-        
-        // Task Manager Functions
-        function addTask() {
-            const title = elements.taskTitle.value.trim();
-            const category = elements.taskCategory.value;
-            const dueDate = elements.taskDueDate.value;
-            const priority = elements.taskPriority.value;
-            
-            if (!title) {
-                showToast('Please enter a task title', 'error');
-                return;
-            }
-            
-            if (!state.isPremium && state.tasks.length >= 5) {
-                showToast('Free version limited to 5 tasks. Upgrade to Premium.', 'error');
-                return;
-            }
-            
-            // Create new task
-            const newTask = {
-                id: Date.now(),
-                title: title,
-                category: category,
-                dueDate: dueDate,
-                priority: priority,
-                completed: false
-            };
-            
-            state.tasks.push(newTask);
-            saveState();
-            
-            // Update UI
-            renderTasks();
-            updateTaskCounter();
-            showToast('Task added successfully!', 'success');
-            
-            // Clear form
-            elements.taskTitle.value = '';
-        }
-        
-        function renderTasks() {
-            elements.taskList.innerHTML = '';
-            
-            if (state.tasks.length === 0) {
-                elements.taskList.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: #6c757d;">
-                        <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>No tasks yet. Add your first task!</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            state.tasks.forEach(task => {
-                const taskItem = document.createElement('li');
-                taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
-                taskItem.innerHTML = `
-                    <input type="checkbox" class="task-check" ${task.completed ? 'checked' : ''} data-id="${task.id}">
-                    <span class="task-text">${task.title}</span>
-                    <div class="task-actions">
-                        <button class="delete-task" data-id="${task.id}"><i class="fas fa-trash"></i></button>
-                    </div>
-                `;
-                elements.taskList.appendChild(taskItem);
-            });
-            
-            // Add event listeners to task checkboxes and delete buttons
-            document.querySelectorAll('.task-check').forEach(checkbox => {
-                checkbox.addEventListener('change', toggleTaskComplete);
-            });
-            
-            document.querySelectorAll('.delete-task').forEach(button => {
-                button.addEventListener('click', deleteTask);
-            });
-        }
-        
-        function toggleTaskComplete(e) {
-            const taskId = parseInt(e.target.dataset.id);
-            const task = state.tasks.find(t => t.id === taskId);
-            
-            if (task) {
-                task.completed = e.target.checked;
-                saveState();
-                renderTasks();
-                
-                if (task.completed) {
-                    showToast('Task marked as complete!', 'success');
-                }
-            }
-        }
-        
-        function deleteTask(e) {
-            const taskId = parseInt(e.target.closest('.delete-task').dataset.id);
-            state.tasks = state.tasks.filter(task => task.id !== taskId);
-            saveState();
-            renderTasks();
-            updateTaskCounter();
-            showToast('Task removed', 'success');
-        }
-        
-        function updateTaskCounter() {
-            elements.taskCount.textContent = state.tasks.length;
-            elements.taskLimit.textContent = '5 tasks';
-        }
-        
-        // Resume Builder Functions
-        function saveResumeData() {
-            state.resumeData = {
-                name: elements.resumeName.value,
-                title: elements.resumeTitle.value,
-                email: elements.resumeEmail.value,
-                phone: elements.resumePhone.value,
-                location: elements.resumeLocation.value,
-                website: elements.resumeWebsite.value,
-                summary: elements.resumeSummary.value
-            };
-            saveState();
-        }
-        
-        function updateResumeFields() {
-            elements.resumeName.value = state.resumeData.name;
-            elements.resumeTitle.value = state.resumeData.title;
-            elements.resumeEmail.value = state.resumeData.email;
-            elements.resumePhone.value = state.resumeData.phone;
-            elements.resumeLocation.value = state.resumeData.location;
-            elements.resumeWebsite.value = state.resumeData.website;
-            elements.resumeSummary.value = state.resumeData.summary;
-        }
-        
-        function updateResumePreview() {
-            elements.previewName.textContent = state.resumeData.name || "John Doe";
-            elements.previewTitle.textContent = state.resumeData.title || "Senior Software Engineer";
-            elements.previewEmail.textContent = state.resumeData.email || "john.doe@example.com";
-            elements.previewPhone.textContent = state.resumeData.phone || "(123) 456-7890";
-            elements.previewLocation.textContent = state.resumeData.location || "San Francisco, CA";
-            elements.previewSummary.textContent = state.resumeData.summary || 
-                "Experienced software engineer with 8+ years of expertise in developing scalable web applications. Specialized in JavaScript frameworks and cloud technologies. Passionate about creating efficient, user-friendly solutions.";
-        }
-        
-        function generateResumePDF() {
-            if (!state.isPremium) {
-                showToast('Please upgrade to Premium to generate your resume', 'error');
-                return;
-            }
-            
-            // Show loading state
-            const originalText = elements.generateResumeBtn.innerHTML;
-            elements.generateResumeBtn.innerHTML = '<span class="loading"></span> Generating Resume...';
-            elements.generateResumeBtn.disabled = true;
-            
-            setTimeout(() => {
-                // Use html2canvas to capture the resume preview
-                html2canvas(elements.resumePreview, {
-                    scale: 2, // Higher quality
-                    useCORS: true,
-                    logging: false
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                    
-                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                    pdf.save('lex-resume.pdf');
-                    
-                    // Restore button state
-                    elements.generateResumeBtn.innerHTML = originalText;
-                    elements.generateResumeBtn.disabled = false;
-                    
-                    showToast('Resume downloaded as PDF', 'success');
-                }).catch(err => {
-                    console.error('Error generating PDF:', err);
-                    showToast('Error generating PDF', 'error');
-                    elements.generateResumeBtn.innerHTML = originalText;
-                    elements.generateResumeBtn.disabled = false;
-                });
-            }, 1500);
-        }
-        
-        // Payment Functions
-        function showPaymentModal() {
-            elements.paymentModal.style.display = 'flex';
-            elements.email.value = '';
-        }
-        
-        function hidePaymentModal() {
-            elements.paymentModal.style.display = 'none';
-        }
-        
-        function handlePayment() {
-            const email = elements.email.value.trim();
-            if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-                showToast('Please enter a valid email address', 'error');
-                return;
-            }
-            
-            // Show processing state
-            elements.payButtonText.innerHTML = '<span class="loading"></span> Processing Payment';
-            elements.payButton.disabled = true;
-            
-            // Simulate payment processing
-            setTimeout(() => {
-                // Unlock premium features
-                state.isPremium = true;
-                saveState();
-                updatePremiumUI();
-                
-                // Hide modal and show toast
-                hidePaymentModal();
-                showToast('Premium features unlocked! Thank you!', 'success');
-                
-                // Reset payment button
-                elements.payButtonText.innerHTML = '<i class="fas fa-lock"></i> Unlock Premium for $14.99';
-                elements.payButton.disabled = false;
-            }, 2000);
-        }
-        
-        // Toast Notification
-        function showToast(message, type = 'success') {
-            elements.toastMessage.textContent = message;
-            elements.toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                elements.toast.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', initApp);
+        });
     </script>
 </body>
 </html>
